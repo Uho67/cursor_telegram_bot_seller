@@ -136,6 +136,8 @@
 </template>
 
 <script>
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+
 export default {
   name: 'ButtonManager',
   data() {
@@ -156,7 +158,7 @@ export default {
   methods: {
     async fetchButtons() {
       try {
-        const response = await fetch('http://localhost:3001/api/buttons')
+        const response = await fetch(`${API_URL}/api/buttons`)
         this.buttons = await response.json()
       } catch (error) {
         console.error('Error fetching buttons:', error)
@@ -167,7 +169,7 @@ export default {
     async createButton() {
       this.isSubmitting = true
       try {
-        const response = await fetch('http://localhost:3001/api/buttons', {
+        const response = await fetch(`${API_URL}/api/buttons`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -196,7 +198,7 @@ export default {
     async updateButton() {
       this.isSubmitting = true
       try {
-        const response = await fetch(`http://localhost:3001/api/buttons/${this.editingButton.id}`, {
+        const response = await fetch(`${API_URL}/api/buttons/${this.editingButton.id}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json'
@@ -224,7 +226,7 @@ export default {
       if (!confirm('Are you sure you want to delete this button?')) return
 
       try {
-        const response = await fetch(`http://localhost:3001/api/buttons/${id}`, {
+        const response = await fetch(`${API_URL}/api/buttons/${id}`, {
           method: 'DELETE'
         })
         

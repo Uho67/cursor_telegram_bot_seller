@@ -53,6 +53,8 @@
 </template>
 
 <script>
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+
 export default {
   name: 'PostManager',
   data() {
@@ -68,12 +70,12 @@ export default {
   methods: {
     async fetchPosts() {
       try {
-        const response = await fetch('http://localhost:3001/api/posts')
+        const response = await fetch(`${API_URL}/api/posts`)
         const posts = await response.json()
         // Update image URLs to use the full backend URL
         this.posts = posts.map(post => ({
           ...post,
-          image: `http://localhost:3001${post.image}`
+          image: `${API_URL}${post.image}`
         }))
       } catch (error) {
         console.error('Error fetching posts:', error)
@@ -97,7 +99,7 @@ export default {
       formData.append('description', this.description)
 
       try {
-        const response = await fetch('http://localhost:3001/api/posts', {
+        const response = await fetch(`${API_URL}/api/posts`, {
           method: 'POST',
           body: formData
         })
@@ -120,7 +122,7 @@ export default {
       if (!confirm('Are you sure you want to delete this post?')) return
 
       try {
-        const response = await fetch(`http://localhost:3001/api/posts/${id}`, {
+        const response = await fetch(`${API_URL}/api/posts/${id}`, {
           method: 'DELETE'
         })
         
